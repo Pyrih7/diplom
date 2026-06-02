@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pyrih's Garage | Сервісна система СТО</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Open+Sans:wght@400;500;600&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/uk.js"></script>
+</head>
+
+<body>
+
+  <!-- ═══ NAVBAR ═══ -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <div class="logo" onclick="Router.go('home')">
+        <div class="logo-img">
+          <img src="img/ava.png" alt="logo" onerror="this.style.display='none'">
+        </div>
+        <div class="logo-text">
+          <span class="logo-name">Pyrih's Garage</span>
+          <span class="logo-sub">Auto Service · Львів</span>
+        </div>
+      </div>
+      <div class="nav-links">
+        <button class="nl act" id="link-home" onclick="Router.go('home')">Головна</button>
+        <button class="nl" id="link-booking" onclick="Router.go('booking')">Запис</button>
+        <button class="nl" id="link-garage" onclick="Router.go('garage')">Мій гараж</button>
+        <button class="nl" id="link-admin" onclick="Router.go('admin')" style="display:none">Адмінка</button>
+        <button class="nl" id="link-auth" onclick="Router.go('auth')">Увійти</button>
+        <button class="theme-toggle" id="theme-toggle" onclick="toggleTheme()">🌙</button>
+        <div class="notif-wrap" id="notif-wrap" style="display:none">
+          <button class="notif-btn" onclick="Notif.toggle()" id="notif-bell">
+            🔔<span class="notif-badge" id="notif-count" style="display:none">0</span>
+          </button>
+          <div class="notif-dropdown" id="notif-dropdown"></div>
+        </div>
+        <button class="nav-cta" onclick="Router.go('booking')">Записатись</button>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+
+    <!-- ═══ HOME ═══ -->
+    <section id="page-home" class="page active">
+
+      <div class="hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+          <div class="hero-badge"><span class="badge-dot"></span>Онлайн запис · Lviv Auto Service</div>
+          <h1>Ваш автомобіль —<br><span>наша відповідальність</span></h1>
+          <p class="hero-sub">Pyrih's Garage — повний цикл технічного обслуговування. Записуйтесь онлайн, ведіть
+            сервісну карту авто та будуйте довіру при продажу.</p>
+          <div class="hero-ctas">
+            <button class="btn-or" onclick="Router.go('booking')">Записатись онлайн</button>
+            <button class="btn-ghost" onclick="smoothTo('svc-anchor')">Переглянути послуги</button>
+          </div>
+          <div class="hero-stats">
+            <div class="h-stat">
+              <div class="h-num">1400+</div>
+              <div class="h-lbl">Клієнтів</div>
+            </div>
+            <div class="h-stat">
+              <div class="h-num">4.9★</div>
+              <div class="h-lbl">Рейтинг</div>
+            </div>
+            <div class="h-stat">
+              <div class="h-num">8</div>
+              <div class="h-lbl">Майстрів</div>
+            </div>
+            <div class="h-stat">
+              <div class="h-num">6 р.</div>
+              <div class="h-lbl">Досвіду</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="svc-anchor" class="container section-block">
+        <div class="section-label">
+          <div class="eyebrow">Що ми робимо</div>
+          <h2>Послуги сервісу</h2>
+          <p>Від діагностики OBD-II до кузовних робіт — повний спектр обслуговування</p>
+        </div>
+        <div class="svc-grid" id="home-svc-grid"></div>
+      </div>
+
+      <div class="why-section">
+        <div class="container">
+          <div class="section-label">
+            <div class="eyebrow" style="color:rgba(245,130,10,.9)">Чому обирають нас</div>
+            <h2 style="color:#fff">Your One Stop Shop</h2>
+            <p style="color:rgba(255,255,255,.6)">Повний сервіс під одним дахом без зайвих витрат часу</p>
+          </div>
+          <div class="why-grid">
+            <div class="why-card">
+              <div class="why-icon"><svg viewBox="0 0 24 24">
+                  <path
+                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
+                </svg></div>
+              <h4>Гарантія якості</h4>
+              <p>На всі роботи — гарантія від 3 до 12 місяців. Стоїмо за кожен болт.</p>
+            </div>
+            <div class="why-card">
+              <div class="why-icon"><svg viewBox="0 0 24 24">
+                  <path
+                    d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z" />
+                </svg></div>
+              <h4>Запис 24/7</h4>
+              <p>Онлайн-бронювання без черг і дзвінків — у кілька кліків у будь-який час.</p>
+            </div>
+            <div class="why-card">
+              <div class="why-icon"><svg viewBox="0 0 24 24">
+                  <path
+                    d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4z" />
+                </svg></div>
+              <h4>Сервісне досьє</h4>
+              <p>Повна історія ТО зберігається у вашому кабінеті — плюс при продажу авто.</p>
+            </div>
+            <div class="why-card">
+              <div class="why-icon"><svg viewBox="0 0 24 24">
+                  <path
+                    d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z" />
+                </svg></div>
+              <h4>Прозорі ціни</h4>
+              <p>Кошторис погоджується до початку робіт. Жодних прихованих доплат.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="container section-block">
+        <div class="section-label">
+          <div class="eyebrow">Відгуки</div>
+          <h2>Що кажуть клієнти</h2>
+        </div>
+        <div class="reviews-grid">
+          <div class="review-card">
+            <div class="rev-stars">★★★★★</div>
+            <p class="rev-text">"Записався онлайн за 2 хвилини — жодних черг. Майстри знайшли проблему одразу. Це той
+              рівень сервісу, якого давно чекав."</p>
+            <div class="rev-author">Іван Коваль</div>
+            <div class="rev-svc">Діагностика OBD-II</div>
+          </div>
+          <div class="review-card">
+            <div class="rev-stars">★★★★★</div>
+            <p class="rev-text">"Вела облік через кабінет — коли продавала машину, покупець побачив всю історію ТО і
+              купив без торгу. Реально працює!"</p>
+            <div class="rev-author">Марія Бойко</div>
+            <div class="rev-svc">Технічне обслуговування</div>
+          </div>
+          <div class="review-card">
+            <div class="rev-stars">★★★★★</div>
+            <p class="rev-text">"Дуже зручний сайт і чесний сервіс. Кошторис погодили наперед, все зробили в строк.
+              Однозначно повернусь."</p>
+            <div class="rev-author">Олег Петренко</div>
+            <div class="rev-svc">Шиномонтаж + балансування</div>
+          </div>
+        </div>
+      </div>
+
+      <div id="contact-anchor" class="container section-block">
+        <div class="section-label">
+          <div class="eyebrow">Як нас знайти</div>
+          <h2>Контакти</h2>
+          <p>Ми знаходимось у Львові — зручне розташування та великий паркінг</p>
+        </div>
+        <div class="contact-grid">
+          <div class="contact-info">
+            <div class="contact-item"><span class="contact-icon">📍</span>
+              <div><b>Адреса</b><br>Львів, вул. Авто, 1</div>
+            </div>
+            <div class="contact-item"><span class="contact-icon">📞</span>
+              <div><b>Телефон</b><br>+380 50 123 45 67</div>
+            </div>
+            <div class="contact-item"><span class="contact-icon">✉️</span>
+              <div><b>Email</b><br>info@pyrihs.garage</div>
+            </div>
+            <div class="contact-item"><span class="contact-icon">🕐</span>
+              <div><b>Режим роботи</b><br>Пн–Пт: 8:00–18:00<br>Сб: 9:00–15:00</div>
+            </div>
+          </div>
+          <div class="map-wrap">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2573.0!2d24.031!3d49.842!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDnCsDUwJzMxLjIiTiAyNMKwMDEnNTEuNiJF!5e0!3m2!1suk!2sua!4v1700000000000"
+              width="100%" height="300" style="border:0;border-radius:4px" allowfullscreen loading="lazy"></iframe>
+          </div>
+        </div>
+      </div>
+      <div class="cta-strip">
+        <h2>Запишіться вже сьогодні</h2>
+        <p>Ваш автомобіль заслуговує найкращого догляду</p>
+        <button class="btn-dark" onclick="Router.go('booking')">Обрати час та послугу →</button>
+      </div>
+
+      <footer class="footer">
+        <div class="container footer-inner">
+          <div class="footer-grid">
+            <div>
+              <div class="footer-brand">Pyrih's Garage</div>
+              <p class="footer-desc">Станція технічного обслуговування у Львові. Повний цикл сервісу — від OBD-II
+                діагностики до кузовних робіт.</p>
+            </div>
+            <div>
+              <div class="footer-col-title">Послуги</div>
+              <ul class="footer-list">
+                <li>Діагностика OBD-II</li>
+                <li>Заміна масла</li>
+                <li>Ремонт гальм</li>
+                <li>Шиномонтаж</li>
+                <li>Кондиціонер</li>
+                <li>Електрика авто</li>
+              </ul>
+            </div>
+            <div>
+              <div class="footer-col-title">Контакти</div>
+              <ul class="footer-list">
+                <li>📍 Львів, вул. Авто, 1</li>
+                <li>📞 +380 50 123 45 67</li>
+                <li>✉ info@pyrihs.garage</li>
+                <li>Пн–Пт: 8:00–18:00</li>
+                <li>Сб: 9:00–15:00</li>
+              </ul>
+            </div>
+          </div>
+          <div class="footer-bottom">
+            <span>© 2026 <b>Pyrih's Garage</b>. Всі права захищені.</span>
+            <span>Дипломна робота · ФеІ-45 · ЛНУ ім. Івана Франка</span>
+          </div>
+        </div>
+      </footer>
+    </section>
+
+    <!-- ═══ BOOKING ═══ -->
+    <section id="page-booking" class="page">
+      <div class="container section-block">
+        <div class="page-header">
+          <div class="eyebrow">Онлайн сервіс</div>
+          <h2 class="page-title">Запис на обслуговування</h2>
+          <p>Оберіть послугу, майстра та зручний час</p>
+        </div>
+        <div class="step-bar">
+          <div class="step-node act" id="sn1">
+            <div class="step-circ">1</div><span>Послуга</span>
+          </div>
+          <div class="step-dash" id="sd1"></div>
+          <div class="step-node off" id="sn2">
+            <div class="step-circ">2</div><span>Майстер</span>
+          </div>
+          <div class="step-dash" id="sd2"></div>
+          <div class="step-node off" id="sn3">
+            <div class="step-circ">3</div><span>Дата і авто</span>
+          </div>
+          <div class="step-dash" id="sd3"></div>
+          <div class="step-node off" id="sn4">
+            <div class="step-circ">4</div><span>Підтвердження</span>
+          </div>
+        </div>
+
+        <div id="bstep-1" class="bstep">
+          <div class="bcard">
+            <div class="bcard-title">Оберіть послугу</div>
+            <div class="svc-sel-grid" id="booking-svc-grid"></div>
+          </div>
+        </div>
+
+        <div id="bstep-2" class="bstep" style="display:none">
+          <div class="bcard">
+            <div class="bcard-title">Оберіть майстра</div>
+            <div class="master-grid" id="master-selection"></div>
+          </div>
+          <button class="btn-back" onclick="Booking.toStep(1)">← Назад</button>
+        </div>
+
+        <div id="bstep-3" class="bstep" style="display:none">
+          <div class="bcard">
+            <div class="bcard-title">Дата, час та автомобіль</div>
+            <div class="form-row2">
+              <div class="fgroup"><label class="flabel">Дата</label><input type="date" id="book-date" class="finput">
+              </div>
+              <div class="fgroup">
+                <label class="flabel">Час</label>
+                <select id="book-time" class="finput">
+                  <option value="">-- Оберіть час --</option>
+                  <option>08:00</option>
+                  <option>09:00</option>
+                  <option>10:00</option>
+                  <option>11:00</option>
+                  <option>12:00</option>
+                  <option>13:00</option>
+                  <option>14:00</option>
+                  <option>15:00</option>
+                  <option>16:00</option>
+                  <option>17:00</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-row2">
+              <div class="fgroup"><label class="flabel">Марка і модель авто</label><input type="text" id="book-car"
+                  class="finput" placeholder="Toyota Camry 2020"></div>
+              <div class="fgroup"><label class="flabel">Держ. номер</label><input type="text" id="book-plate"
+                  class="finput" placeholder="AA 0000 BB"></div>
+            </div>
+            <div class="fgroup"><label class="flabel">Коментар</label><textarea id="book-comment" class="finput"
+                rows="2" placeholder="Опишіть проблему або побажання..."></textarea></div>
+            <div id="guest-fields" style="display:none">
+              <div class="fgroup"><label class="flabel">Ваше ім'я</label><input type="text" id="book-gname"
+                  class="finput" placeholder="Ім'я та прізвище"></div>
+              <div class="fgroup"><label class="flabel">Телефон</label><input type="text" id="book-gphone"
+                  class="finput" placeholder="+380 XX XXX XX XX"></div>
+            </div>
+          </div>
+          <button class="btn-back" onclick="Booking.toStep(2)">← Назад</button>
+          <button class="btn-or" onclick="Booking.toStep(4)">Далі →</button>
+        </div>
+
+        <div id="bstep-4" class="bstep" style="display:none">
+          <div class="bcard">
+            <div class="bcard-title">Підтвердіть запис</div>
+            <div class="summary-box" id="booking-summary"></div>
+            <p class="hint-txt">Після підтвердження ви отримаєте унікальний код запису</p>
+          </div>
+          <button class="btn-back" onclick="Booking.toStep(3)">← Назад</button>
+          <button class="btn-or" onclick="Booking.confirm()">Підтвердити запис →</button>
+        </div>
+
+        <div id="bstep-ok" class="bstep" style="display:none">
+          <div class="bcard success-card">
+            <div class="success-ring">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"
+                stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12" />
+              </svg>
+            </div>
+            <div class="success-title">Запис підтверджено!</div>
+            <p class="success-sub" id="success-text"></p>
+            <div class="booking-code" id="success-code"></div>
+            <button class="btn-or" onclick="Booking.reset()">Записатись ще раз</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ AUTH ═══ -->
+    <section id="page-auth" class="page">
+      <div class="auth-wrap">
+        <div class="auth-card">
+          <div class="auth-logo">
+            <div class="auth-ava"><img src="img/ava.png" alt="logo" onerror="this.style.display='none'"></div>
+            <div class="auth-brand">Pyrih's Garage</div>
+            <div class="auth-brand-sub">Особистий кабінет клієнта</div>
+          </div>
+          <div class="auth-tabs">
+            <button class="auth-tab act" id="tab-login" onclick="Auth.setTab('login')">Увійти</button>
+            <button class="auth-tab" id="tab-reg" onclick="Auth.setTab('reg')">Реєстрація</button>
+          </div>
+          <div id="form-login" class="auth-block act">
+            <div class="fgroup"><label class="flabel">Email</label><input type="email" id="l-email" class="finput"
+                placeholder="your@email.com"></div>
+            <div class="fgroup"><label class="flabel">Пароль</label><input type="password" id="l-pass" class="finput"
+                placeholder="••••••••"></div>
+            <button class="btn-or w100" onclick="Auth.login()">Увійти в кабінет</button>
+            <p class="auth-switch">Немає акаунту? <span onclick="Auth.setTab('reg')">Зареєструватись</span></p>
+          </div>
+          <div id="form-reg" class="auth-block">
+            <div class="form-row2">
+              <div class="fgroup"><label class="flabel">Ім'я</label><input type="text" id="r-name" class="finput"
+                  placeholder="Олександр"></div>
+              <div class="fgroup"><label class="flabel">Прізвище</label><input type="text" id="r-sname" class="finput"
+                  placeholder="Пиріг"></div>
+            </div>
+            <div class="fgroup"><label class="flabel">Email</label><input type="email" id="r-email" class="finput"
+                placeholder="your@email.com"></div>
+            <div class="fgroup"><label class="flabel">Телефон</label><input type="text" id="r-phone" class="finput"
+                placeholder="+380 XX XXX XX XX"></div>
+            <div class="fgroup"><label class="flabel">Пароль</label><input type="password" id="r-pass" class="finput"
+                placeholder="Мінімум 6 символів"></div>
+            <div class="fgroup">
+              <label class="flabel">Роль</label>
+              <select id="r-role" class="finput">
+                <option value="client">Клієнт</option>
+                <option value="master">Майстер / Адмін</option>
+              </select>
+            </div>
+            <button class="btn-or w100" onclick="Auth.register()">Створити акаунт</button>
+            <p class="auth-switch">Вже є акаунт? <span onclick="Auth.setTab('login')">Увійти</span></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ GARAGE ═══ -->
+    <section id="page-garage" class="page">
+      <div class="container section-block">
+        <div class="page-header">
+          <div class="eyebrow">Особистий кабінет</div>
+          <h2 class="page-title" id="garage-title">Мій гараж</h2>
+          <p id="garage-desc">Всі ваші автомобілі та повна сервісна історія</p>
+        </div>
+        <div class="user-bar" id="user-bar"></div>
+
+        <div class="promo-banner"
+          style="background: linear-gradient(135deg, var(--or), var(--or2)); border-radius: 8px; padding: 24px; color: white; margin-bottom: 24px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;">
+          <div>
+            <h3
+              style="font-family: 'Oswald', sans-serif; font-size: 20px; text-transform: uppercase; margin-bottom: 4px; color: white;">
+              Програма лояльності</h3>
+            <p style="font-size: 14px; opacity: 0.9;">Отримайте безкоштовну діагностику ходової при наступному візиті!
+            </p>
+          </div>
+          <button class="btn-dark" onclick="Router.go('booking')"
+            style="padding: 10px 20px; font-size: 13px;">Використати</button>
+        </div>
+
+
+
+        <div class="g-section-hdr">
+          Мої автомобілі
+          <button class="btn-sm-or" onclick="Garage.openAddCar()">+ Додати авто</button>
+        </div>
+        <div class="car-grid" id="car-grid"></div>
+
+        <div class="g-section-hdr" style="margin-top:2rem">Записи на обслуговування</div>
+        <div id="my-bookings"></div>
+      </div>
+    </section>
+
+    <!-- ═══ ADMIN ═══ -->
+    <section id="page-admin" class="page">
+      <div class="container section-block">
+        <div class="page-header">
+          <div class="eyebrow">Управління</div>
+          <h2 class="page-title">Панель адміністратора</h2>
+        </div>
+        <div class="admin-stats-row">
+          <div class="adm-stat">
+            <div class="adm-lbl">Замовлень</div>
+            <div class="adm-val" id="st-count">0</div>
+          </div>
+          <div class="adm-stat">
+            <div class="adm-lbl">Виручка</div>
+            <div class="adm-val" id="st-sum">0 грн</div>
+          </div>
+          <div class="adm-stat">
+            <div class="adm-lbl">Клієнтів</div>
+            <div class="adm-val" id="st-users">0</div>
+          </div>
+          <div class="adm-stat">
+            <div class="adm-lbl">Автомобілів</div>
+            <div class="adm-val" id="st-cars">0</div>
+          </div>
+        </div>
+        <div class="adm-tabs">
+          <button class="adm-tab act" onclick="Admin.tab('orders',this)">Замовлення</button>
+          <button class="adm-tab" onclick="Admin.tab('users',this)">Клієнти</button>
+          <button class="adm-tab" onclick="Admin.tab('cars',this)">Автомобілі</button>
+        </div>
+        <div class="charts-row">
+          <div class="chart-box"><canvas id="chart-status"></canvas></div>
+          <div class="chart-box"><canvas id="chart-svc"></canvas></div>
+        </div>
+        <div id="adm-filter" class="adm-filter-bar" style="display:none">
+          <input type="text" id="adm-search" class="finput" placeholder="Пошук по клієнту або авто..."
+            oninput="Admin.filter()" style="max-width:280px">
+          <select id="adm-status-filter" class="finput" onchange="Admin.filter()" style="max-width:180px">
+            <option value="">Всі статуси</option>
+            <option>Заплановано</option>
+            <option>В роботі</option>
+            <option>Виконано</option>
+            <option>Скасовано</option>
+          </select>
+        </div>
+        <div id="adm-orders" class="adm-panel act"></div>
+        <div id="adm-users" class="adm-panel"></div>
+        <div id="adm-cars" class="adm-panel"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ═══ MODAL: Add Car ═══ -->
+  <div id="modal-car" class="modal-bg" onclick="Garage.closeModalBg(event)">
+    <div class="modal-box">
+      <div class="modal-hdr">Додати автомобіль <button class="modal-x" onclick="Garage.closeModal()">✕</button></div>
+      <div class="form-row2">
+        <div class="fgroup"><label class="flabel">Марка</label><input id="c-make" class="finput" placeholder="Toyota">
+        </div>
+        <div class="fgroup"><label class="flabel">Модель</label><input id="c-model" class="finput" placeholder="Camry">
+        </div>
+      </div>
+      <div class="form-row2">
+        <div class="fgroup"><label class="flabel">Рік</label><input id="c-year" class="finput" type="number"
+            placeholder="2020"></div>
+        <div class="fgroup"><label class="flabel">Держ. номер</label><input id="c-plate" class="finput"
+            placeholder="AA 0000 BB"></div>
+      </div>
+      <div class="form-row2">
+        <div class="fgroup"><label class="flabel">VIN (необов.)</label><input id="c-vin" class="finput"
+            placeholder="1HGBH41..."></div>
+        <div class="fgroup"><label class="flabel">Пробіг (км)</label><input id="c-mileage" class="finput" type="number"
+            placeholder="45000"></div>
+      </div>
+      <div class="fgroup"><label class="flabel">Колір</label><input id="c-color" class="finput"
+          placeholder="Сріблястий"></div>
+      <button class="btn-or w100" style="margin-top:1rem" onclick="Garage.saveCar()">Зберегти автомобіль</button>
+    </div>
+  </div>
+
+  <div id="toast" class="toast"></div>
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/booking.js"></script>
+  <script src="js/garage.js"></script>
+  <script src="js/admin.js"></script>
+  <script src="js/main.js"></script>
+</body>
+
+</html>

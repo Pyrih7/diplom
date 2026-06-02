@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>ER Діаграма БД</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script>
+        mermaid.initialize({ startOnLoad: true, theme: 'default' });
+    </script>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f9f9f9;
+            font-family: sans-serif;
+        }
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2 style="text-align: center; color: #333;">Архітектура Бази Даних: Pyrih's Garage</h2>
+    <div class="mermaid">
+    erDiagram
+        USERS ||--o{ CARS : "володіє (1:N)"
+        USERS ||--o{ BOOKINGS : "створює (1:N)"
+        USERS ||--o{ NOTIFICATIONS : "отримує (1:N)"
+        BOOKINGS ||--o{ NOTIFICATIONS : "генерує (1:N)"
+
+        USERS {
+            INTEGER id PK
+            TEXT name
+            TEXT email
+            TEXT phone
+            TEXT pass_hash
+            TEXT role
+        }
+
+        CARS {
+            INTEGER id PK
+            INTEGER user_id FK
+            TEXT make
+            TEXT model
+            TEXT plate
+        }
+
+        BOOKINGS {
+            INTEGER id PK
+            TEXT code
+            TEXT svc_name
+            INTEGER price
+            TEXT master
+            TEXT date
+            TEXT time
+            TEXT plate
+            INTEGER client_id FK
+            TEXT status
+        }
+
+        NOTIFICATIONS {
+            INTEGER id PK
+            INTEGER user_id FK
+            INTEGER booking_id FK
+            TEXT message
+            INTEGER is_read
+        }
+    </div>
+</div>
+
+</body>
+</html>
